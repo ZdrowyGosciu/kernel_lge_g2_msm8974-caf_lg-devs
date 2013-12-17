@@ -74,6 +74,8 @@
 #define MTP_RESPONSE_OK             0x2001
 #define MTP_RESPONSE_DEVICE_BUSY    0x2019
 
+#define MAX_CONTAINER_LENGTH        0xFFFFFFFF
+
 #ifdef CONFIG_USB_G_LGE_ANDROID
 unsigned int mtp_rx_req_len = 262144;
 #else
@@ -1335,7 +1337,10 @@ static void send_file_work(struct work_struct *data)
 		if (hdr_size) {
 			/* prepend MTP data header */
 			header = (struct mtp_data_header *)req->buf;
-			header->length = __cpu_to_le32(count);
+			if (count > MAX_CONTAINER_LENGTH)
+				header->length = MAX_CONTAINER_LENGTH;
+			else
+				header->length = __cpu_to_le32(count);
 			header->type = __cpu_to_le16(2); /* data packet */
 			header->command = __cpu_to_le16(dev->xfer_command);
 			header->transaction_id =
