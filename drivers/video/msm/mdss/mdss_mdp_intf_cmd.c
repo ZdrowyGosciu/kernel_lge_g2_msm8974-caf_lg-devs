@@ -198,6 +198,9 @@ static inline void mdss_mdp_cmd_clk_on(struct mdss_mdp_cmd_ctx *ctx)
 	if (!ctx->panel_on)
 		return;
 
+	if (!ctx->panel_on)
+		return;
+
 	mutex_lock(&ctx->clk_mtx);
 	MDSS_XLOG(ctx->pp_num, ctx->koff_cnt, ctx->clk_enabled,
 						ctx->rdptr_enabled);
