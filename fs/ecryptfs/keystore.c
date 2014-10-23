@@ -1150,8 +1150,8 @@ decrypt_pki_encrypted_session_key(struct ecryptfs_auth_tok *auth_tok,
 	struct ecryptfs_message *msg = NULL;
 	char *auth_tok_sig = NULL;
 	char *payload = NULL;
-	size_t payload_len;
-	int rc;
+	size_t payload_len = 0;
+	int rc = 0;
 
 	rc = ecryptfs_get_auth_tok_sig(&auth_tok_sig, auth_tok);
 	if (rc) {
@@ -1249,9 +1249,9 @@ parse_tag_1_packet(struct ecryptfs_crypt_stat *crypt_stat,
 		   struct ecryptfs_auth_tok **new_auth_tok,
 		   size_t *packet_size, size_t max_packet_size)
 {
-	size_t body_size;
-	struct ecryptfs_auth_tok_list_item *auth_tok_list_item;
-	size_t length_size;
+	size_t body_size = 0;
+	struct ecryptfs_auth_tok_list_item *auth_tok_list_item = NULL;
+	size_t length_size = 0;
 	int rc = 0;
 
 	(*packet_size) = 0;
@@ -1381,9 +1381,9 @@ parse_tag_3_packet(struct ecryptfs_crypt_stat *crypt_stat,
 		   struct ecryptfs_auth_tok **new_auth_tok,
 		   size_t *packet_size, size_t max_packet_size)
 {
-	size_t body_size;
-	struct ecryptfs_auth_tok_list_item *auth_tok_list_item;
-	size_t length_size;
+	size_t body_size = 0;
+	struct ecryptfs_auth_tok_list_item *auth_tok_list_item = NULL;
+	size_t length_size = 0;
 	int rc = 0;
 
 	(*packet_size) = 0;
@@ -1554,8 +1554,8 @@ parse_tag_11_packet(unsigned char *data, unsigned char *contents,
 		    size_t max_contents_bytes, size_t *tag_11_contents_size,
 		    size_t *packet_size, size_t max_packet_size)
 {
-	size_t body_size;
-	size_t length_size;
+	size_t body_size = 0;
+	size_t length_size = 0;
 	int rc = 0;
 
 	(*packet_size) = 0;
@@ -1671,7 +1671,7 @@ decrypt_passphrase_encrypted_session_key(struct ecryptfs_auth_tok *auth_tok,
 {
 	struct scatterlist dst_sg[2];
 	struct scatterlist src_sg[2];
-	struct mutex *tfm_mutex;
+	struct mutex *tfm_mutex = NULL;
 	struct blkcipher_desc desc = {
 		.flags = CRYPTO_TFM_REQ_MAY_SLEEP
 	};
@@ -1767,18 +1767,18 @@ int ecryptfs_parse_packet_set(struct ecryptfs_crypt_stat *crypt_stat,
 			      struct dentry *ecryptfs_dentry)
 {
 	size_t i = 0;
-	size_t found_auth_tok;
-	size_t next_packet_is_auth_tok_packet;
+	size_t found_auth_tok = 0;
+	size_t next_packet_is_auth_tok_packet = 0;
 	struct list_head auth_tok_list;
-	struct ecryptfs_auth_tok *matching_auth_tok;
-	struct ecryptfs_auth_tok *candidate_auth_tok;
-	char *candidate_auth_tok_sig;
-	size_t packet_size;
-	struct ecryptfs_auth_tok *new_auth_tok;
+	struct ecryptfs_auth_tok *matching_auth_tok = NULL;
+	struct ecryptfs_auth_tok *candidate_auth_tok = NULL;
+	char *candidate_auth_tok_sig = NULL;
+	size_t packet_size = 0;
+	struct ecryptfs_auth_tok *new_auth_tok = NULL;
 	unsigned char sig_tmp_space[ECRYPTFS_SIG_SIZE];
-	struct ecryptfs_auth_tok_list_item *auth_tok_list_item;
-	size_t tag_11_contents_size;
-	size_t tag_11_packet_size;
+	struct ecryptfs_auth_tok_list_item *auth_tok_list_item = NULL;
+	size_t tag_11_contents_size = 0;
+	size_t tag_11_packet_size = 0;
 	struct key *auth_tok_key = NULL;
 	int rc = 0;
 #if 1 /* FEATURE_SDCARD_ENCRYPTION DEBUG */
@@ -1996,8 +1996,8 @@ pki_encrypt_session_key(struct key *auth_tok_key,
 	struct ecryptfs_msg_ctx *msg_ctx = NULL;
 	char *payload = NULL;
 	size_t payload_len = 0;
-	struct ecryptfs_message *msg;
-	int rc;
+	struct ecryptfs_message *msg = NULL;
+	int rc = 0;
 
 	rc = write_tag_66_packet(auth_tok->token.private_key.signature,
 				 ecryptfs_code_for_cipher_string(
@@ -2051,10 +2051,10 @@ write_tag_1_packet(char *dest, size_t *remaining_bytes,
 		   struct ecryptfs_crypt_stat *crypt_stat,
 		   struct ecryptfs_key_record *key_rec, size_t *packet_size)
 {
-	size_t i;
+	size_t i = 0;
 	size_t encrypted_session_key_valid = 0;
-	size_t packet_size_length;
-	size_t max_packet_size;
+	size_t packet_size_length = 0;
+	size_t max_packet_size = 0;
 	int rc = 0;
 
 	(*packet_size) = 0;
@@ -2141,8 +2141,8 @@ static int
 write_tag_11_packet(char *dest, size_t *remaining_bytes, char *contents,
 		    size_t contents_length, size_t *packet_length)
 {
-	size_t packet_size_length;
-	size_t max_packet_size;
+	size_t packet_size_length = 0;
+	size_t max_packet_size = 0;
 	int rc = 0;
 
 	(*packet_length) = 0;
