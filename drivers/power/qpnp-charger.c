@@ -3844,14 +3844,15 @@ qpnp_chg_regulator_boost_enable(struct regulator_dev *rdev)
 			pr_err("failed to write SEC_ACCESS rc=%d\n", rc);
 			return rc;
 		}
-
-		rc = qpnp_chg_masked_write(chip,
-			chip->usb_chgpth_base + COMP_OVR1,
-			0xFF,
-			0x2F, 1);
-		if (rc) {
-			pr_err("failed to write COMP_OVR1 rc=%d\n", rc);
-			return rc;
+		if (chip->type != SMBBP) {
+			rc = qpnp_chg_masked_write(chip,
+				chip->usb_chgpth_base + COMP_OVR1,
+				0xFF,
+				0x2F, 1);
+			if (rc) {
+				pr_err("failed to write COMP_OVR1 rc=%d\n", rc);
+				return rc;
+			}
 		}
 	}
 
@@ -4004,20 +4005,20 @@ qpnp_chg_regulator_boost_disable(struct regulator_dev *rdev)
 			return rc;
 #endif
 		}
-
-		rc = qpnp_chg_masked_write(chip,
-			chip->usb_chgpth_base + COMP_OVR1,
-			0xFF,
-			0x00, 1);
-		if (rc) {
-			pr_err("failed to write COMP_OVR1 rc=%d\n", rc);
+		if (chip->type != SMBBP) {
+			rc = qpnp_chg_masked_write(chip,
+				chip->usb_chgpth_base + COMP_OVR1,
+				0xFF,
+				0x00, 1);
+			if (rc) {
+				pr_err("failed to write COMP_OVR1 rc=%d\n", rc);
 #ifdef CONFIG_LGE_PM
-			return;
+	                        return;
 #else
-			return rc;
+        	                return rc;
 #endif
+			}
 		}
-
 		usleep(1000);
 
 		qpnp_chg_usb_suspend_enable(chip, 0);
